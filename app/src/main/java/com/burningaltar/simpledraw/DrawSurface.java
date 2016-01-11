@@ -42,6 +42,8 @@ public class DrawSurface extends SurfaceView implements SurfaceHolder.Callback {
     /** Used to track a quick down-up, with no finger moving for drawing **/
     boolean mHasDrawn = false;
 
+    boolean mHasBeenDestroyed = false;
+
     DrawListener mListener;
 
     int w = 0;
@@ -79,8 +81,8 @@ public class DrawSurface extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
+        Log.v(TAG, "surface created");
         mSurfaceHolder = holder;
-        updateCanvas();
     }
 
     @Override
@@ -107,7 +109,7 @@ public class DrawSurface extends SurfaceView implements SurfaceHolder.Callback {
             case MotionEvent.ACTION_OUTSIDE:
             case MotionEvent.ACTION_UP:
                 if (!mHasDrawn) {
-                    mCurrentPath.addCircle(x, y, STROKE_WIDTH / 2, Path.Direction.CCW);
+                    mCurrentPath.addCircle(x, y, STROKE_WIDTH / 3, Path.Direction.CCW);
                     updateCanvas();
                 }
 
@@ -127,6 +129,7 @@ public class DrawSurface extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void clearCanvas() {
+        Log.v(TAG, "clear canvas");
         mCanvas.drawRect(0, 0, w, h, mBmpPaint);
         updateCanvas();
     }
@@ -148,40 +151,34 @@ public class DrawSurface extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
-        int newW = MeasureSpec.getSize(widthMeasureSpec);
-        int newH = MeasureSpec.getSize(heightMeasureSpec);
-
-        if (w == newW && h == newH) return;
-
-        w = newW;
-        h = newH;
-
-        Log.v(TAG, "w: " + w + " h: " + h);
-
-        if (w == 0 || h == 0) return;
-
-        mBmpDraw = Bitmap.createBitmap(w, h, Bitmap.Config.RGB_565);
-        mCanvas = new Canvas(mBmpDraw);
-        mCanvas.drawRect(0, 0, w, h, mBmpPaint);
-        updateCanvas();
-    }
-
     public void setDrawingColor(int color) {
         mPaint.setColor(color);
     }
 
-
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        // No-op
+        Log.v(TAG, "surface changed, width " + width + " height " + height);
+        if (width == 0 || height == 0) return;
+
+        if (w == width && h == height && !mHasBeenDestroyed) return;
+
+        w = width;
+        h = height;
+
+        Log.v(TAG, "w: " + w + " h: " + h);
+
+        if (!mHasBeenDestroyed || mBmpDraw == null) {
+            mBmpDraw = Bitmap.createBitmap(w, h, Bitmap.Config.RGB_565);
+            mCanvas = new Canvas(mBmpDraw);
+            mCanvas.drawRect(0, 0, w, h, mBmpPaint);
+        }
+
+        updateCanvas();
     }
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-
+        Log.v(TAG, "surface destroyed");
+        mHasBeenDestroyed = true;
     }
 }

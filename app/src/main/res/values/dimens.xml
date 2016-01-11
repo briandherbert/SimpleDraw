@@ -1,4 +1,6 @@
 <resources>
-    <dimen name="palette_color_border">6dp</dimen>
-    <dimen name="palette_height">60dp</dimen>
+    <dimen name="palette_color_border">10dp</dimen>
+    <dimen name="palette_height">100dp</dimen>
+    <dimen name="recycle_icon_size">70dp</dimen>
+    <dimen name="bar_height">30dp</dimen>
 </resources>

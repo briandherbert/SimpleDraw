@@ -1,9 +1,9 @@
 package com.burningaltar.simpledraw;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -11,6 +11,8 @@ public class DrawActivity extends AppCompatActivity implements PaletteBar.Palett
     PaletteBar mPalleteBar;
     DrawSurface mDrawSurface;
     TextView mLblErase;
+
+    int[] eraseCountColors = {Color.RED, Color.YELLOW, Color.GREEN};
 
     boolean mHasSeenEraseMessage = false;
 
@@ -83,5 +85,22 @@ public class DrawActivity extends AppCompatActivity implements PaletteBar.Palett
     public void onLineDrawn() {
         mEraseCount = ERASE_TAPS_NEEDED;
         mLblErase.setText(Integer.toString(mEraseCount));
+    }
+
+    public void setEraseCount(int count) {
+        mEraseCount = count;
+
+        if (count <= 0) {
+            mEraseCount = ERASE_TAPS_NEEDED;
+            if (mDrawSurface != null) mDrawSurface.clearCanvas();
+        }
+
+        if (mLblErase != null) {
+            if (mEraseCount > 0 && mEraseCount - 1 < eraseCountColors.length) {
+                mLblErase.setTextColor(eraseCountColors[mEraseCount - 1]);
+            }
+
+            mLblErase.setText(Integer.toString(mEraseCount));
+        }
     }
 }

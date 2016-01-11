@@ -6,17 +6,32 @@
     android:layout_height="match_parent"
     tools:context="com.burningaltar.simpledraw.DrawActivity">
 
+    <View
+        android:id="@+id/topbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bar_height"
+        android:layout_alignParentTop="true"
+        android:background="#000" />
+
     <com.burningaltar.simpledraw.DrawSurface
         android:id="@+id/drawsurface"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/lin_controls" />
+        android:layout_above="@+id/lin_controls"
+        android:layout_below="@+id/topbar" />
+
+    <View
+        android:id="@+id/bottombar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bar_height"
+        android:layout_alignParentBottom="true"
+        android:background="#000" />
 
     <LinearLayout
         android:id="@+id/lin_controls"
         android:layout_width="match_parent"
         android:layout_height="@dimen/palette_height"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/bottombar"
         android:background="#fff">
 
 
@@ -29,13 +44,14 @@
 
         <TextView
             android:id="@+id/lbl_erase"
-            android:layout_width="@dimen/palette_height"
-            android:layout_height="@dimen/palette_height"
+            android:layout_width="@dimen/recycle_icon_size"
+            android:layout_height="@dimen/recycle_icon_size"
+            android:layout_gravity="bottom"
             android:background="@drawable/recycle"
             android:gravity="center"
             android:text="3"
             android:textColor="#000"
-            android:textSize="32sp"
+            android:textSize="36sp"
             android:textStyle="bold" />
 
 
