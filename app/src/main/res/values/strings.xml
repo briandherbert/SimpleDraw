@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">SimpleDraw</string>
+    <string name="app_name">SimpleDraw for Toddlers</string>
     <string name="erase_message">Press %d more times to erase everything.</string>
 </resources>

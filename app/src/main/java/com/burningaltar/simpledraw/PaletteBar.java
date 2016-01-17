@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -104,7 +105,7 @@ public class PaletteBar extends RelativeLayout {
     }
 
     public void init(Context context) {
-        this.removeAllViews();
+        removeAllViews();
 
         LinearLayout linHues = new LinearLayout(context);
         LinearLayout linTints = new LinearLayout(context);
@@ -149,6 +150,7 @@ public class PaletteBar extends RelativeLayout {
     }
 
     public int getColorFromCoords(float x, float y) {
+        Log.v("blarg", "get color from coords: " + x + ", " + y);
         x -= (float)this.mColorMargin;
         y -= (float)this.mColorMargin;
         float gradientSize = (float)this.mPaletteWidth / (float)COLOR_GRADIENTS.length;
