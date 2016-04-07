@@ -35,7 +35,7 @@
         android:background="#fff">
 
 
-        <com.burningaltar.simpledraw.PaletteBar
+        <com.meetme.android.palettebar.PaletteBar
             android:id="@+id/palettebar"
             android:layout_width="0dp"
             android:layout_height="match_parent"
